@@ -17,7 +17,7 @@ MODEL_PATH = os.path.expanduser(
 def retreive_model():
     """Downloads the model weights from Zenodo."""
     pooch.retrieve(
-        url="https://sandbox.zenodo.org/records/21462/files/model_weights.pt",
+        url="https://zenodo.org/records/10492836/files/model_weights.pt",
         known_hash="md5:323dc96017201776bbd00ce289d93e6e",
         path=MODEL_PATH,
         progressbar=True,

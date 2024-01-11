@@ -7,9 +7,9 @@ We provide a 3D U-Net model for the segmentation of the lungs region in mice CT 
 
 [[`Installation`](#installation)] [[`Model weights`](#model)] [[`Usage`](#usage)]
 
-## Authors
+This project is part of a collaboration between the [EPFL Center for Imaging](https://imaging.epfl.ch/) and the [De Palma Lab](https://www.epfl.ch/labs/depalma-lab/).
 
-This project is part of a collaboration between the [EPFL Center for Imaging](https://imaging.epfl.ch/) and the [De Palma Lab](https://www.epfl.ch/labs/depalma-lab/). The implementation, training, and validation of the model were done by Quentin Chappuis during the course of his Bachelor Project in the Fall semester of 2023 under the supervision of Mallory Wittwer.
+The implementation, training, and validation of the model were done by **Quentin Chappuis** during the course of his Bachelor Project in the Fall semester of 2023 under the supervision of Mallory Wittwer. The corresponding project that includes training notebooks is available [in this repository](https://gitlab.epfl.ch/center-for-imaging/tumor-lungs).
 
 ## Installation
 
@@ -34,7 +34,7 @@ pip install -e .
 ## Model
 
 **Model weights**
-The model weights (~1.1 GB) are automatically downloaded from [this repository on Zenodo](https://sandbox.zenodo.org/records/21462) the first time you run inference. The model files are saved in the user home folder in the `.lungsunet` directory.
+The model weights (~1.1 GB) are automatically downloaded from [this repository on Zenodo](https://zenodo.org/records/10492836) the first time you run inference. The model files are saved in the user home folder in the `.lungsunet` directory.
 
 **Training**
 The model was trained using a dataset of `355` images coming from 17 different experiments, 2 different scanners and was validated on `62` images.
