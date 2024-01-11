@@ -11,6 +11,10 @@ This project is part of a collaboration between the [EPFL Center for Imaging](ht
 
 The implementation, training, and validation of the model were done by **Quentin Chappuis** during the course of his Bachelor Project in the Fall semester of 2023 under the supervision of Mallory Wittwer. The corresponding project that includes training notebooks is available [in this repository](https://gitlab.epfl.ch/center-for-imaging/tumor-lungs).
 
+Related projects:
+
+- [Mouse Tumor Net](https://gitlab.com/epfl-center-for-imaging/mousetumornet)
+
 ## Installation
 
 We recommend performing the installation in a clean Python environment.
