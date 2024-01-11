@@ -67,18 +67,12 @@ segmentation = lungs_predict.predict(your_image)
 mask = lungs_predict.postprocess(segmentation)
 ```
 
-To apply a specific `threshold` (`float` between 0 and 1), use:
-
-```py
-mask = lungs_predict.postprocess(segmentation, threshold)
-```
-
 **As a CLI**
 
 Run inference on an image from the command-line. For example:
 
 ```sh
-uls_predict_image -i /path/to/folder/image_001.tif [-t <threshold>]
+uls_predict_image -i /path/to/folder/image_001.tif
 ```
 
 The command will save the segmentation next to the image:
@@ -92,7 +86,7 @@ folder/
 To run inference in batch on all images in a folder, use:
 
 ```sh
-uls_predict_folder -i /path/to/folder/ [-t <threshold>]
+uls_predict_folder -i /path/to/folder/
 ```
 
 This will produce:
