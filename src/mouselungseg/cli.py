@@ -1,4 +1,4 @@
-from UNet_lungs_segmentation import LungsPredict
+from mouselungseg import LungsPredict
 import tifffile
 from pathlib import Path
 import argparse
@@ -20,8 +20,15 @@ def process_input_file_predict(input_image_file, predictor):
 
 def cli_predict_image():
     """Command-line entry point for model inference."""
-    parser = argparse.ArgumentParser(description="Use this command to run inference.")
-    parser.add_argument("-i", type=str, required=True, help="Input image. Must be either a TIF or a NIFTI image file.")
+    parser = argparse.ArgumentParser(
+        description="Use this command to run inference."
+    )
+    parser.add_argument(
+        "-i",
+        type=str,
+        required=True,
+        help="Input image. Must be either a TIF or a NIFTI image file.",
+    )
     args = parser.parse_args()
 
     input_image_file = args.i
@@ -32,8 +39,15 @@ def cli_predict_image():
 
 
 def cli_predict_folder():
-    parser = argparse.ArgumentParser(description="Use this command to run inference in batch on a given folder.")
-    parser.add_argument("-i", type=str, required=True, help="Input folder. Must contain suitable TIF image files.")
+    parser = argparse.ArgumentParser(
+        description="Use this command to run inference in batch on a given folder."
+    )
+    parser.add_argument(
+        "-i",
+        type=str,
+        required=True,
+        help="Input folder. Must contain suitable TIF image files.",
+    )
     args = parser.parse_args()
 
     input_folder = args.i

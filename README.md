@@ -31,7 +31,7 @@ or clone the repository and install with:
 
 ```sh
 git clone git+https://gitlab.com/center-for-imaging/lungs-segmentation.git
-cd UNet_lungs_segmentation
+cd mouselungseg
 pip install -e .
 ```
 
@@ -50,21 +50,21 @@ The model was trained using a dataset of `355` images coming from 17 different e
 To use our model in Napari, start the viewer with
 
 ```sh
-napari -w UNet-lungs-segmentation
+napari -w mouselungseg
 ```
 
 Open an image using `File > Open files` or drag-and-drop an image into the viewer window. If you want to open medical image formats such as NIFTI directly, consider installing the [napari-medical-image-formats](https://pypi.org/project/napari-medical-image-formats/) plugin.
 
 **Sample data**: To test the model, you can run it on our provided sample image. In Napari, open the image from `File > Open Sample > Mouse lung CT scan`.
 
-Next, in the menu bar select `Plugins > Lungs segmentation (UNet_lungs_segmentation)` to start our plugin.
+Next, in the menu bar select `Plugins > Lungs segmentation (mouselungseg)` to start our plugin.
 
 **As a library**
 
 You can run a model in just a few lines of code to produce a segmentation mask from an image (represented as a numpy array).
 
 ```py
-from UNet_lungs_segmentation import LungsPredict
+from mouselungseg import LungsPredict
 
 lungs_predict = LungsPredict()
 segmentation = lungs_predict.predict(your_image)

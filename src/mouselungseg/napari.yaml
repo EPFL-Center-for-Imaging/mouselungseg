@@ -1,12 +1,12 @@
-name: UNet-lungs-segmentation
+name: mouselungseg
 display_name: Mouse lungs segmentation
 contributions:
   commands:
-    - id: UNet-lungs-segmentation.predict
+    - id: mouselungseg.predict
       title: Lungs segmentation
-      python_name: UNet_lungs_segmentation.napari_plugin:LungsSegmentationWidget
+      python_name: mouselungseg.napari_plugin:LungsSegmentationWidget
   widgets:
-    - command: UNet-lungs-segmentation.predict
+    - command: mouselungseg.predict
       display_name: Lungs segmentation
   sample_data:
   - key: lung_ct
