@@ -67,12 +67,10 @@ class LungsSegmentationWidget(QWidget):
     @thread_worker
     def _tumor_prediction_thread(self):
 
-        image_pred = self.lungs_predict.predict(self.selected_image)
-        image_pred = self.lungs_predict.postprocess(image_pred)
+        probabilities = self.lungs_predict.predict(self.selected_image)
+        segmentation = self.lungs_predict.postprocess(probabilities).astype("uint16")
 
-        segmentation = image_pred.astype("uint16")
-
-        return segmentation
+        return [probabilities, segmentation]
 
     def _start_tumor_prediction(self):
         self.selected_image = self.cb_image.currentData()
@@ -85,10 +83,15 @@ class LungsSegmentationWidget(QWidget):
         worker.returned.connect(self._load_in_viewer)
         worker.start()
 
-    def _load_in_viewer(self, segmentation):
+    def _load_in_viewer(self, payload):
         """Callback from thread returning."""
+        probabilities, segmentation = payload
         if segmentation is not None:
-            prob_layer = self.viewer.add_labels(segmentation, name="Segmentation")
+            segmentation_layer = self.viewer.add_labels(segmentation, name="Segmentation")
+            segmentation_layer.opacity = 0.2
+            segmentation_layer.blending = "additive"
+        if probabilities is not None:
+            prob_layer = self.viewer.add_image(probabilities, name="Probabilities")
             prob_layer.opacity = 0.2
             prob_layer.blending = "additive"
         self.pbar.setMaximum(1)

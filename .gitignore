@@ -137,3 +137,5 @@ dmypy.json
 cython_debug/
 
 checkpoints1/
+
+notebooks/

@@ -5,3 +5,5 @@ scikit-image==0.22.0
 tifffile==2023.9.18
 matplotlib==3.8.2
 pooch==1.8.0
+onnx
+onnxruntime
