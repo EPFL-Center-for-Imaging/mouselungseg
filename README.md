@@ -21,7 +21,13 @@ We recommend performing the installation in a clean Python environment.
 
 The code requires `python>=3.9`, as well as `pytorch>=2.0`.
 
-Install our package from the repository:
+Install our package from PyPi:
+
+```sh
+pip install mouselungseg
+```
+
+or from the repository:
 
 ```sh
 pip install git+https://gitlab.com/center-for-imaging/lungs-segmentation.git
@@ -34,6 +40,10 @@ git clone git+https://gitlab.com/center-for-imaging/lungs-segmentation.git
 cd mouselungseg
 pip install -e .
 ```
+
+**GPU support**
+
+If you have a CUDA-enabled GPU (CUDA < 11.x) it should be recognized by the `onnxruntime-gpu` library and used for the segmentation. If that's not the case, try re-installing the package (`pip uninstall onnxruntim-gpu && pip install onnxruntime-gpu`) and try again.
 
 ## Model
 
