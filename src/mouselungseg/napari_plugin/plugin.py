@@ -91,7 +91,7 @@ class LungsSegmentationWidget(QWidget):
             segmentation_layer.opacity = 0.2
             segmentation_layer.blending = "additive"
         if probabilities is not None:
-            prob_layer = self.viewer.add_image(probabilities, name="Probabilities")
+            prob_layer = self.viewer.add_image(probabilities, name="Probabilities", colormap="inferno", blending="additive")
             prob_layer.opacity = 0.2
             prob_layer.blending = "additive"
         self.pbar.setMaximum(1)

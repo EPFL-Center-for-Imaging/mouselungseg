@@ -21,13 +21,41 @@ def retreive_onnx_model():
     )
 
 class LungsPredict():
-    def __init__(self):
+    def __init__(self, force_cpu=False):
         retreive_onnx_model()
 
-        self.ort_session = onnxruntime.InferenceSession(
-            os.path.join(ONNX_MODEL_PATH, "lungs_segmentation_model.onnx"), 
-            providers=["CPUExecutionProvider"]
-        )
+        onnx_model_path = os.path.join(ONNX_MODEL_PATH, "lungs_segmentation_model.onnx")
+
+        options = onnxruntime.SessionOptions()
+        options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
+        if force_cpu:
+            print("Running inference on the CPU (enforced).")
+
+            self.ort_session = onnxruntime.InferenceSession(
+                onnx_model_path, 
+                options,
+                providers=["CPUExecutionProvider"]
+            )
+        else:
+            try:
+                self.ort_session = onnxruntime.InferenceSession(
+                    onnx_model_path, 
+                    options,
+                    providers=['CUDAExecutionProvider']
+                )
+            
+                print("CUDA-enabled device is available.")
+                gpu_info = onnxruntime.get_device()
+                print("Using this device:")
+                print(gpu_info)
+            except:
+                print("No CUDA-enabled device found. Running inference on the CPU.")
+
+                self.ort_session = onnxruntime.InferenceSession(
+                    onnx_model_path, 
+                    options,
+                    providers=["CPUExecutionProvider"]
+                )
 
     def predict(self, image: np.ndarray) -> np.ndarray:
         image_preprocessed = self.preprocess(image)
