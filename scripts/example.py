@@ -1,16 +1,6 @@
-import napari
 import imageio
 
-from mouselungseg import LungsPredict
-
-
-def predict(image: "np.ndarray") -> "np.ndarray":
-    """The main function."""
-    lungs_predict = LungsPredict()
-    segmentation = lungs_predict.predict(image)
-    mask = lungs_predict.postprocess(segmentation)
-    return mask
-
+from mouselungseg import LungsPredict, extract_3d_roi
 
 if __name__ == "__main__":
     image = imageio.imread(
@@ -18,11 +8,11 @@ if __name__ == "__main__":
     )
     print(image.shape)
 
-    mask = predict(image)
-    print(mask.sum())
+    predictor = LungsPredict()
 
-    viewer = napari.Viewer()
-    viewer.add_image(image)
-    viewer.add_labels(mask)
+    mask = predictor.predict(image)
+    print(mask.shape, mask.sum())
 
-    napari.run()
+    roi, mask_roi = extract_3d_roi(image, mask)
+    print(roi.shape, mask_roi.shape, mask_roi.sum())
+

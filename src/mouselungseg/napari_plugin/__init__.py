@@ -1,1 +1,1 @@
-from .plugin import LungsSegmentationWidget
+from ._widget import LungsSegmentationWidget

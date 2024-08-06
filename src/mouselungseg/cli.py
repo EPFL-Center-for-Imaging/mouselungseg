@@ -8,13 +8,13 @@ import glob
 def process_input_file_predict(input_image_file, predictor):
     image = tifffile.imread(input_image_file)
 
-    pred = predictor.predict(image)
-    post = predictor.postprocess(pred, 0.5)
+    segmentation = predictor.predict(image)
 
     pt = Path(input_image_file)
     out_file_name = pt.parent / f"{pt.stem}_mask.tif"
 
-    tifffile.imwrite(out_file_name, post)
+    tifffile.imwrite(out_file_name, segmentation)
+
     print("Wrote to ", out_file_name)
 
 
@@ -27,7 +27,7 @@ def cli_predict_image():
         "-i",
         type=str,
         required=True,
-        help="Input image. Must be either a TIF or a NIFTI image file.",
+        help="Input image. Must be a TIF image file.",
     )
     args = parser.parse_args()
 

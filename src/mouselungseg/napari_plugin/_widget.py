@@ -18,7 +18,6 @@ sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 )
 
-# from lungs_predict import LungsPredict
 from predict import LungsPredict
 
 class LungsSegmentationWidget(QWidget):
@@ -41,7 +40,7 @@ class LungsSegmentationWidget(QWidget):
 
         # Compute button
         self.btn = QPushButton("Segment lungs", self)
-        self.btn.clicked.connect(self._start_tumor_prediction)
+        self.btn.clicked.connect(self._start_segmentation)
         grid_layout.addWidget(self.btn, 3, 0, 1, 2)
 
         # Progress bar
@@ -61,18 +60,14 @@ class LungsSegmentationWidget(QWidget):
         self.cb_image.clear()
         for x in self.viewer.layers:
             if isinstance(x, napari.layers.Image):
-                if x.data.ndim == 3:
+                if x.data.ndim in [2, 3]:
                     self.cb_image.addItem(x.name, x.data)
 
     @thread_worker
     def _tumor_prediction_thread(self):
+        return self.lungs_predict.predict(self.selected_image)
 
-        probabilities = self.lungs_predict.predict(self.selected_image)
-        segmentation = self.lungs_predict.postprocess(probabilities).astype("uint16")
-
-        return [probabilities, segmentation]
-
-    def _start_tumor_prediction(self):
+    def _start_segmentation(self):
         self.selected_image = self.cb_image.currentData()
         if self.selected_image is None:
             return
@@ -83,15 +78,11 @@ class LungsSegmentationWidget(QWidget):
         worker.returned.connect(self._load_in_viewer)
         worker.start()
 
-    def _load_in_viewer(self, payload):
+    def _load_in_viewer(self, segmentation):
         """Callback from thread returning."""
-        probabilities, segmentation = payload
         if segmentation is not None:
-            segmentation_layer = self.viewer.add_labels(segmentation, name="Segmentation")
+            segmentation_layer = self.viewer.add_labels(segmentation, name="Lungs (Yolo)")
             segmentation_layer.opacity = 0.2
             segmentation_layer.blending = "additive"
-        if probabilities is not None:
-            prob_layer = self.viewer.add_image(probabilities, name="Probabilities")
-            prob_layer.opacity = 0.2
-            prob_layer.blending = "additive"
+        
         self.pbar.setMaximum(1)
