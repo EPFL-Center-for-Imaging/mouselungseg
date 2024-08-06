@@ -1,4 +1,4 @@
-from mouselungseg import LungsPredict
+from mouselungseg import LungsPredictor
 import tifffile
 from pathlib import Path
 import argparse
@@ -20,9 +20,7 @@ def process_input_file_predict(input_image_file, predictor):
 
 def cli_predict_image():
     """Command-line entry point for model inference."""
-    parser = argparse.ArgumentParser(
-        description="Use this command to run inference."
-    )
+    parser = argparse.ArgumentParser(description="Use this command to run inference.")
     parser.add_argument(
         "-i",
         type=str,
@@ -33,7 +31,7 @@ def cli_predict_image():
 
     input_image_file = args.i
 
-    predictor = LungsPredict()
+    predictor = LungsPredictor()
 
     process_input_file_predict(input_image_file, predictor)
 
@@ -52,7 +50,7 @@ def cli_predict_folder():
 
     input_folder = args.i
 
-    lungs_predict = LungsPredict()
+    lungs_predict = LungsPredictor()
 
     for input_image_file in glob.glob(str(Path(input_folder) / "*.tif")):
         process_input_file_predict(input_image_file, lungs_predict)

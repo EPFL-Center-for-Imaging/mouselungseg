@@ -7,17 +7,18 @@ import scipy.ndimage as ndi
 from ultralytics import YOLO
 
 MODEL_PATH = os.path.expanduser(
-    os.path.join(os.getenv("XDG_DATA_HOME", "~"), ".lungsunet")
+    os.path.join(os.getenv("XDG_DATA_HOME", "~"), ".mousetumornet")
 )
 
-def retreive_onnx_model():
+
+def retreive_model():
     """Downloads the model weights from Zenodo."""
     pooch.retrieve(
         url="https://zenodo.org/records/13234710/files/best.pt",
         known_hash="md5:139471da545565d033748dc0d54a2392",
         path=MODEL_PATH,
         progressbar=True,
-        fname="best.pt"
+        fname="yolo_seg_mouselungs.pt",
     )
 
 
@@ -30,7 +31,7 @@ def handle_2d_predict(image, model, imgsz):
     image = to_rgb(image)
 
     results = model.predict(
-        source=image, 
+        source=image,
         conf=0.25,  # Confidence threshold for detections.
         iou=0.5,  # Intersection over union threshold.
         imgsz=imgsz,  # Square resizing
@@ -50,11 +51,13 @@ def handle_2d_predict(image, model, imgsz):
             mask = mask[..., 0]
 
         # Fill-in the mask
-        mask = ndi.binary_fill_holes(mask, structure=ndi.generate_binary_structure(2, 1))
+        mask = ndi.binary_fill_holes(
+            mask, structure=ndi.generate_binary_structure(2, 1)
+        )
 
     if len(mask.shape) == 3:
         mask = mask[..., 0]
-    
+
     return mask
 
 
@@ -70,7 +73,9 @@ def handle_3d_predict(image, model, imgsz):
     mask_3d = np.stack(mask_3d)
 
     # Dilate in the Z direcion to suppress missing frames
-    mask_3d = ndi.binary_dilation(mask_3d, structure=ndi.generate_binary_structure(3, 1), iterations=2)
+    mask_3d = ndi.binary_dilation(
+        mask_3d, structure=ndi.generate_binary_structure(3, 1), iterations=2
+    )
 
     return mask_3d
 
@@ -82,15 +87,15 @@ def handle_predict(image, model, imgsz):
         mask = handle_3d_predict(image, model, imgsz)
 
     mask = mask.astype(np.uint8)
-    
+
     return mask
 
 
-class LungsPredict():
-    def __init__(self, force_cpu=False):
-        retreive_onnx_model()
+class LungsPredictor:
+    def __init__(self):
+        retreive_model()
 
-        self.model = YOLO(os.path.join(MODEL_PATH, "best.pt"))
+        self.model = YOLO(os.path.join(MODEL_PATH, "yolo_seg_mouselungs.pt"))
         self.imgsz = 640
 
     def predict(self, image: np.ndarray) -> np.ndarray:

@@ -41,17 +41,9 @@ cd mouselungseg
 pip install -e .
 ```
 
-**GPU support**
+## Model weights
 
-If you have a CUDA-enabled GPU (CUDA < 11.x) it should be recognized by the `onnxruntime-gpu` library and used for the segmentation. If that's not the case, try re-installing the package (`pip uninstall onnxruntim-gpu && pip install onnxruntime-gpu`) and try again.
-
-## Model
-
-**Model weights**
-The model weights (~1.1 GB) are automatically downloaded from [this repository on Zenodo](https://zenodo.org/records/10492836) the first time you run inference. The model files are saved in the user home folder in the `.lungsunet` directory.
-
-**Training**
-The model was trained using a dataset of `355` images coming from 17 different experiments, 2 different scanners and was validated on `62` images.
+The model weights (~6 Mb) are automatically downloaded from [this repository on Zenodo](https://zenodo.org/records/13234710) the first time you run inference. The model files are saved in the user home folder in the `.mousetumornet` directory.
 
 ## Usage
 
@@ -74,11 +66,10 @@ Next, in the menu bar select `Plugins > Lungs segmentation (mouselungseg)` to st
 You can run a model in just a few lines of code to produce a segmentation mask from an image (represented as a numpy array).
 
 ```py
-from mouselungseg import LungsPredict
+from mouselungseg import LungsPredictor
 
-lungs_predict = LungsPredict()
+lungs_predict = LungsPredictor()
 segmentation = lungs_predict.predict(your_image)
-mask = lungs_predict.postprocess(segmentation)
 ```
 
 **As a CLI**
@@ -120,7 +111,3 @@ If you encounter any problems, please file an issue along with a detailed descri
 ## License
 
 This model is licensed under the [BSD-3](LICENSE.txt) license.
-
-## Carbon footprint of this project
-
-As per the online tool [*Green algorithms*](http://calculator.green-algorithms.org/), the footprint of training this model was estimated to be around 584 g CO2e.

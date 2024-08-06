@@ -18,13 +18,14 @@ sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 )
 
-from predict import LungsPredict
+from mouselungseg.predict import LungsPredictor
 
 class LungsSegmentationWidget(QWidget):
     def __init__(self, napari_viewer):
         super().__init__()
 
         self.viewer = napari_viewer
+        self.predictor = LungsPredictor()
 
         # Layout
         grid_layout = QGridLayout()
@@ -36,7 +37,6 @@ class LungsSegmentationWidget(QWidget):
         self.cb_image.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         grid_layout.addWidget(QLabel("Image", self), 0, 0)
         grid_layout.addWidget(self.cb_image, 0, 1)
-        self.lungs_predict = LungsPredict()
 
         # Compute button
         self.btn = QPushButton("Segment lungs", self)
@@ -65,7 +65,7 @@ class LungsSegmentationWidget(QWidget):
 
     @thread_worker
     def _tumor_prediction_thread(self):
-        return self.lungs_predict.predict(self.selected_image)
+        return self.predictor.predict(self.selected_image)
 
     def _start_segmentation(self):
         self.selected_image = self.cb_image.currentData()

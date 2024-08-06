@@ -139,3 +139,5 @@ cython_debug/
 checkpoints1/
 
 notebooks/
+
+_version.py

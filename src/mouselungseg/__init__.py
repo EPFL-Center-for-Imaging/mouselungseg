@@ -1,2 +1,2 @@
-from mouselungseg.predict import LungsPredict
+from mouselungseg.predict import LungsPredictor
 from mouselungseg.postprocess import extract_3d_roi
