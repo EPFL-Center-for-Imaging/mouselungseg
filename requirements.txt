@@ -7,3 +7,4 @@ matplotlib==3.8.2
 pooch==1.8.0
 onnx
 onnxruntime
+onnxruntime-gpu

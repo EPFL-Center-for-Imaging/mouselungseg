@@ -87,7 +87,7 @@ def handle_predict(image, model, imgsz):
 
 
 class LungsPredict():
-    def __init__(self):
+    def __init__(self, force_cpu=False):
         retreive_onnx_model()
 
         self.model = YOLO(os.path.join(MODEL_PATH, "best.pt"))
