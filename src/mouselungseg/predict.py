@@ -6,6 +6,9 @@ import pooch
 import scipy.ndimage as ndi
 from ultralytics import YOLO
 
+from mouselungseg.postprocess import extract_3d_roi
+
+
 MODEL_PATH = os.path.expanduser(
     os.path.join(os.getenv("XDG_DATA_HOME", "~"), ".mousetumornet")
 )
@@ -101,3 +104,8 @@ class LungsPredictor:
     def predict(self, image: np.ndarray) -> np.ndarray:
         mask = handle_predict(image, self.model, self.imgsz)
         return mask
+    
+    def compute_3d_roi(self, image: np.ndarray) -> np.ndarray:
+        mask = self.predict(image)
+        roi, roi_mask = extract_3d_roi(image, mask)
+        return roi, roi_mask

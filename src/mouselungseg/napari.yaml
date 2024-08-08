@@ -5,9 +5,14 @@ contributions:
     - id: mouselungseg.predict
       title: Lungs segmentation
       python_name: mouselungseg.napari_plugin:LungsSegmentationWidget
+    - id: mouselungseg.roi
+      title: ROI detection
+      python_name: mouselungseg.napari_plugin:RoiWidget
   widgets:
     - command: mouselungseg.predict
       display_name: Lungs segmentation
+    - command: mouselungseg.roi
+      display_name: ROI detection
   sample_data:
   - key: lung_ct
     display_name: Mouse lung CT scan
