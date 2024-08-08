@@ -3,25 +3,15 @@
 
 ![screenshot](images/screenshot.png)
 
-We provide a 3D U-Net model for the segmentation of the lungs region in mice CT scans.
+We provide a [YoloV8](https://docs.ultralytics.com/) model for the segmentation of the lungs region in mice CT scans. The model was trained on 2D slices and can be applied slice by slice to produce 3D segmentations.
 
 [[`Installation`](#installation)] [[`Model weights`](#model)] [[`Usage`](#usage)]
 
 This project is part of a collaboration between the [EPFL Center for Imaging](https://imaging.epfl.ch/) and the [De Palma Lab](https://www.epfl.ch/labs/depalma-lab/).
 
-The implementation, training, and validation of the model were done by **Quentin Chappuis** during the course of his Bachelor Project in the Fall semester of 2023 under the supervision of Mallory Wittwer. The corresponding project that includes training notebooks is available [in this repository](https://gitlab.epfl.ch/center-for-imaging/tumor-lungs).
-
-Related projects:
-
-- [Mouse Tumor Net](https://gitlab.com/epfl-center-for-imaging/mousetumornet)
-
 ## Installation
 
-We recommend performing the installation in a clean Python environment.
-
-The code requires `python>=3.9`, as well as `pytorch>=2.0`.
-
-Install our package from PyPi:
+We recommend performing the installation in a clean Python environment. Install our package from PyPi:
 
 ```sh
 pip install mouselungseg
@@ -55,7 +45,7 @@ To use our model in Napari, start the viewer with
 napari -w mouselungseg
 ```
 
-Open an image using `File > Open files` or drag-and-drop an image into the viewer window. If you want to open medical image formats such as NIFTI directly, consider installing the [napari-medical-image-formats](https://pypi.org/project/napari-medical-image-formats/) plugin.
+Open an image using `File > Open files` or drag-and-drop an image into the viewer window.
 
 **Sample data**: To test the model, you can run it on our provided sample image. In Napari, open the image from `File > Open Sample > Mouse lung CT scan`.
 
@@ -69,6 +59,7 @@ You can run a model in just a few lines of code to produce a segmentation mask f
 from mouselungseg import LungsPredictor
 
 lungs_predict = LungsPredictor()
+
 segmentation = lungs_predict.predict(your_image)
 ```
 
@@ -111,3 +102,7 @@ If you encounter any problems, please file an issue along with a detailed descri
 ## License
 
 This model is licensed under the [BSD-3](LICENSE.txt) license.
+
+## Related projects
+
+- [Mouse Tumor Net](https://gitlab.com/epfl-center-for-imaging/mousetumornet) | 3D U-Net model trained to segment tumor nodules in mice CT scans.
