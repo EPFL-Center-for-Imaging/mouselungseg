@@ -13,6 +13,12 @@ MODEL_PATH = os.path.expanduser(
     os.path.join(os.getenv("XDG_DATA_HOME", "~"), ".mousetumornet")
 )
 
+def keep_biggest_object(lab_int: np.ndarray) -> np.ndarray:
+    """Selects only the biggest object of a labels image."""
+    labels = ndi.label(lab_int)[0]  # label from scipy
+    counts = np.unique(labels, return_counts=1)
+    biggestLabel = np.argmax(counts[1][1:]) + 1
+    return (labels == biggestLabel).astype(int)
 
 def retreive_model():
     """Downloads the model weights from Zenodo."""
@@ -79,6 +85,9 @@ def handle_3d_predict(image, model, imgsz):
     mask_3d = ndi.binary_dilation(
         mask_3d, structure=ndi.generate_binary_structure(3, 1), iterations=2
     )
+
+    # Keep the biggest object
+    mask_3d = keep_biggest_object(mask_3d)  # Note - this also converts the mask from bool => int64
 
     return mask_3d
 
