@@ -4,6 +4,7 @@ from skimage.transform import resize
 from skimage.exposure import rescale_intensity
 import pooch
 import scipy.ndimage as ndi
+from scipy.interpolate import interp1d
 from ultralytics import YOLO
 
 from mouselungseg.postprocess import extract_3d_roi
@@ -114,7 +115,51 @@ class LungsPredictor:
         mask = handle_predict(image, self.model, self.imgsz)
         return mask
     
+    def fast_predict(self, image: np.ndarray, skip_level: int=1) -> np.ndarray:
+        """Skip frames in Z and interpolate between them to predict faster."""
+        rz, ry, rx = image.shape
+        mask = np.zeros(image.shape, dtype=np.uint8)
+        image_partial = image[::skip_level]
+        mask_partial = self.predict(image_partial)
+        mask[::skip_level] = mask_partial
+        range_z = np.arange(rz)
+        annotated_slices = range_z[::skip_level]
+        for y in range(ry):
+            for x in range(rx):
+                values = mask_partial[:, y, x]
+                interp_func = interp1d(
+                    annotated_slices, 
+                    values, 
+                    kind='nearest', 
+                    bounds_error=False, 
+                    fill_value=0
+                )
+                mask[:, y, x] = interp_func(range_z)
+        return mask
+
     def compute_3d_roi(self, image: np.ndarray) -> np.ndarray:
         mask = self.predict(image)
         roi, roi_mask = extract_3d_roi(image, mask)
         return roi, roi_mask
+
+if __name__=='__main__':
+    import tifffile
+    import time
+    import napari
+
+    predictor = LungsPredictor()
+    image = tifffile.imread('image.tif')
+
+    t0 = time.perf_counter()
+    mask = predictor.predict(image)
+    print("Time to predict: ", time.perf_counter() - t0)
+
+    t0 = time.perf_counter()
+    mask8 = predictor.fast_predict(image, skip_level=8)
+    print("Time to predict: ", time.perf_counter() - t0)
+
+    viewer = napari.view_image(image)
+    viewer.add_labels(mask)
+    viewer.add_labels(mask8)
+
+    import pdb; pdb.set_trace()
