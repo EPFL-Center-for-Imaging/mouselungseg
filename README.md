@@ -20,13 +20,13 @@ pip install mouselungseg
 or from the repository:
 
 ```sh
-pip install git+https://gitlab.com/center-for-imaging/lungs-segmentation.git
+pip install git+https://github.com/EPFL-Center-for-Imaging/mouselungseg.git
 ```
 
 or clone the repository and install with:
 
 ```sh
-git clone git+https://gitlab.com/center-for-imaging/lungs-segmentation.git
+git clone git+https://github.com/EPFL-Center-for-Imaging/mouselungseg.git
 cd mouselungseg
 pip install -e .
 ```
@@ -105,4 +105,5 @@ This model is licensed under the [BSD-3](LICENSE.txt) license.
 
 ## Related projects
 
-- [Mouse Tumor Net](https://gitlab.com/epfl-center-for-imaging/mousetumornet) | 3D U-Net model trained to segment tumor nodules in mice CT scans.
+- [Mouse Tumor Net](https://github.com/EPFL-Center-for-Imaging/mousetumornet) | Detect tumor nodules in mice CT scans.
+- [Mouse Tumor Track](https://github.com/EPFL-Center-for-Imaging/mousetumortrack) | Track tumor nodules in mice CT scans.
