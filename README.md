@@ -107,3 +107,7 @@ This model is licensed under the [BSD-3](LICENSE.txt) license.
 
 - [Mouse Tumor Net](https://github.com/EPFL-Center-for-Imaging/mousetumornet) | Detect tumor nodules in mice CT scans.
 - [Mouse Tumor Track](https://github.com/EPFL-Center-for-Imaging/mousetumortrack) | Track tumor nodules in mice CT scans.
+
+## Acknowledgements
+
+Special thanks go to **Quentin Chappuis** for his contribution to the ideation and exploration of the data and for developing the preliminary code that laid the foundations for this project during the course of his Bachelor project in Fall 2023.
