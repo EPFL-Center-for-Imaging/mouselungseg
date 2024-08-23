@@ -101,7 +101,9 @@ If you encounter any problems, please file an issue along with a detailed descri
 
 ## License
 
-This model is licensed under the [BSD-3](LICENSE.txt) license.
+This project is licensed under the [AGPL-3](LICENSE) license.
+
+This project depends on the [ultralytics](https://github.com/ultralytics/ultralytics) package which is licensed under AGPL-3.
 
 ## Related projects
 
