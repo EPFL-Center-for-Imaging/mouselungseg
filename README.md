@@ -33,7 +33,7 @@ pip install -e .
 
 ## Model weights
 
-The model weights (~6 Mb) are automatically downloaded from [this repository on Zenodo](https://zenodo.org/records/13234710) the first time you run inference. The model files are saved in the user home folder in the `.mousetumornet` directory.
+The model weights (~6 Mb) are automatically downloaded from [this repository on Zenodo](https://zenodo.org/records/13268683) the first time you run inference. The model files are saved in the user home folder in the `.mousetumornet` directory.
 
 ## Usage
 
